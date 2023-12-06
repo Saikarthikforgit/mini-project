@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+    }
+
+    .background-image {
+      background-image: url("https://miro.medium.com/v2/resize:fit:1400/1*6VzlbToiK3Q7LD4mFGB68Q.png");
+      background-size: cover;
+      background-position: center;
+      height: 100%;
+      width: 100%;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: -1;
+    }
+
+    /* Your existing styles for traffic lights and timers */
+    /* ... */
+/* Styles for traffic lights */
+    .traffic-light {
+      background-color: black;
+      border-radius: 8px;
+      position: absolute;
+      width: 40px; /* Adjusted width */
+      height: 90px; /* Increased height */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+    }
+
+    /* Add a black background container */
+    .background-container {
+      position: absolute;
+      background-color: black;
+      width: 100%;
+      height: 100%;
+      border-radius: 5px; /* Adjust border-radius as needed */
+      z-index: -1;
+    }
+
+    /* Traffic lights positioning */
+    .top-left {
+      top: 70px;
+      left: 70px;
+    }
+
+    .top-right {
+      top: 70px;
+      right: 70px;
+    }
+
+    .bottom-left {
+      bottom: 70px;
+      left: 70px;
+    }
+
+    .bottom-right {
+      bottom: 70px;
+      right: 70px;
+    }
+/* Traffic timers positioning */
+    .top-left1 {
+      top: 70px;
+      left: 120px;
+    }
+
+    .top-right1 {
+      top: 70px;
+      right: 120px;
+    }
+
+    .bottom-left1 {
+      bottom: 70px;
+      left: 120px;
+    }
+
+    .bottom-right1 {
+      bottom: 70px;
+      right: 120px;
+    }
+
+    /* Traffic light colors */
+    .traffic-light div {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      margin-bottom: 5px;
+    }
+
+    .red {
+      background-color: red;
+    }
+
+    .yellow {
+      background-color: yellow;
+    }
+
+    .green {
+      background-color: green;
+    }
+
+    /* Timer styles */
+    .timer-container {
+      position: absolute;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .timer {
+      font-size: 24px;
+      cursor: pointer;
+      color: white;
+      margin-bottom: 10px;
+    }
+
+    /*Frist moving container moving right to left styling */
+    .moving-container {
+      position: absolute;
+      top: 42%;
+      left: 38%;
+      transform: translate(-50%, -50%);
+      width: 115px; /* Width of 4 dummy images combined */
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      pointer-events: auto;
+      background: transparent; /* Transparent background */
+    }
+
+    .moving-container img {
+      width: 36px;
+      height: 25px;
+      transition: left 2s ease-in-out; /* Smooth transition effect */
+    }
+/*Second moving container moving right to left styling */
+    .moving-container-reverse {
+      position: absolute;
+      top: 51%;
+      right: 40%; /* Ensure initial position is 0 */
+      transform: translate(50%,-50%);
+      width: 115px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      pointer-events: auto;
+      background: transparent;
+    }
+
+    .moving-container-reverse img {
+      width: 36px;
+      height: 25px;
+      transform: rotate(180deg);
+      transition: right 2s ease-in-out;
+    }
+/*third moving container moving right to left styling */
+    .moving-container-reverse1 {
+      position: absolute;
+      top: 25%;
+      right: 48%; /* Ensure initial position is 0 */
+      transform: translate(50%,-50%);
+      width: 115px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      pointer-events: auto;
+      background: transparent;
+      writing-mode: vertical-lr;
+    }
+
+    .moving-container-reverse1 img {
+      width: 36px;
+      height: 25px;
+      transition: top 2s ease-in-out;
+      transform: rotate(90deg); 
+      padding: 5px;
+    }
+
+/* Fourth moving container moving bottom to top styling */
+.moving-container-reverse2 {
+  position: absolute;
+  bottom: 16%; /* Adjust the bottom position */
+  left: 47%; /* Align container at the center */
+  transform: translate(-50%,-50%);
+  width: 115px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  pointer-events: auto;
+  background: transparent;
+  writing-mode: vertical-lr;
+ /* Change the transition property */
+}
+
+.moving-container-reverse2 img {
+  width: 36px;
+  height: 25px;
+  transform: rotate(270deg);
+  transition: bottom 2s ease-in-out;
+  padding: 5px;
+}
+
+
+
+  </style>
+</head>
+<body>
+  <div class="background-image"></div>
+  <!-- Traffic lights with background containers -->
+  <!-- Traffic light1 -->
+  <div class="traffic-light top-left">
+     <div class="background-container"></div>
+    <div class="red active"></div>
+    <div class="yellow"></div>
+    <div class="green"></div>
+  </div>
+<!-- Traffic light2 -->
+  <div class="traffic-light top-right">
+    <div class="background-container"></div>
+    <div class="red active"></div>
+    <div class="yellow"></div>
+    <div class="green"></div>
+  </div>
+<!-- Traffic light3 -->
+  <div class="traffic-light bottom-left">
+    <div class="background-container"></div>
+    <div class="red active"></div>
+    <div class="yellow"></div>
+    <div class="green"></div>
+  </div>
+<!-- Traffic light4 -->
+  <div class="traffic-light bottom-right">
+    <div class="background-container"></div>
+    <div class="red active"></div>
+    <div class="yellow"></div>
+    <div class="green"></div>
+  </div>
+
+  <!-- Timers separately -->
+  <div class="timer-container top-left1" onclick="startTimer(this)">
+    <div class="timer">15</div>
+   
+  </div>
+  <div class="timer-container top-right1" onclick="startTimer(this)">
+    <div class="timer">9</div>
+    
+  </div>
+  <div class="timer-container bottom-left1" onclick="startTimer(this)">
+    <div class="timer">5</div>
+   
+  </div>
+  <div class="timer-container bottom-right1" onclick="startTimer(this)">
+    <div class="timer">3</div>
+  </div>
+
+<!-- Frist moving container moving right to left -->
+  <div class="moving-container" id="imageContainer">
+    <img src="C:\cars\c1-removebg-preview.png" alt="Dummy Image">
+    <img src="C:\cars\c1-removebg-preview.png" alt="Dummy Image">
+    <img src="C:\cars\c1-removebg-preview.png" alt="Dummy Image">
+  </div>
+  
+  
+    <!-- Second moving container moving right to left -->
+ <div class="moving-container-reverse" id="imageContainerReverse">
+    <img src="C:\cars\c1-removebg-preview.png" alt="Dummy Image">
+    <img src="C:\cars\c1-removebg-preview.png" alt="Dummy Image">
+    <img src="C:\cars\c1-removebg-preview.png" alt="Dummy Image">
+  </div>
+  
+  <!-- third moving container moving right to left -->
+ <div class="moving-container-reverse1" id="imageContainerReverse1">
+    <img src="C:\cars\c1-removebg-preview.png" alt="Dummy Image">
+    <img src="C:\cars\c1-removebg-preview.png" alt="Dummy Image">
+    <img src="C:\cars\c1-removebg-preview.png" alt="Dummy Image">
+  </div>
+
+<!-- Fourth moving container moving bottom to top -->
+<div class="moving-container-reverse2" id="imageContainerReverse2">
+  <img src="C:\cars\c1-removebg-preview.png" alt="Dummy Image">
+  <img src="C:\cars\c1-removebg-preview.png" alt="Dummy Image">
+  <img src="C:\cars\c1-removebg-preview.png" alt="Dummy Image">
+</div>
+
+
+  <script>
+  document.getElementById('imageContainer').addEventListener('click', moveContainerLeftToRight);
+  document.getElementById('imageContainerReverse').addEventListener('click', moveContainerRightToLeft);
+  document.getElementById('imageContainerReverse1').addEventListener('click', moveContainerTopToBottom);
+  document.getElementById('imageContainerReverse2').addEventListener('click', moveContainerBottomToTop);
+ // Update event listener to target the correct container 
+
+
+  //function moveContainerLeftToRight() {
+   // const container = document.getElementById('imageContainer');
+   // moveContainer(container, 'left', window.innerWidth - container.offsetWidth);
+  //}
+
+  //function moveContainerRightToLeft() {
+  //const container = document.getElementById('imageContainerReverse');
+  //moveContainer1(container, 'right', window.innerWidth - container.offsetWidth); // Change endpoint to 0 for right-to-left movement
+//}
+function moveContainerTopToBottom() {
+  const container = document.getElementById('imageContainerReverse1'); // Change the container ID
+  const endpoint = window.innerHeight - container.offsetHeight; // Adjust the endpoint for top-to-bottom movement
+  const moveAmount = 10;
+  let currentPosition = parseInt(getComputedStyle(container)['top']) || 0;
+
+  const moveInterval = setInterval(() => {
+    currentPosition += moveAmount;
+    container.style['top'] = currentPosition + 'px';
+
+    if (currentPosition >= endpoint) {
+      clearInterval(moveInterval);
+      container.style['top'] = '0';
+    }
+  }, 100);
+}
+
+function moveContainerBottomToTop() {
+  const container = document.getElementById('imageContainerReverse2');
+  const endpoint = window.innerHeight - container.offsetHeight;
+  const moveAmount = 10;
+  let currentPosition = parseInt(getComputedStyle(container)['bottom']) || 0;
+
+  const moveInterval = setInterval(() => {
+    currentPosition += moveAmount;
+    container.style['bottom'] = currentPosition + 'px';
+
+    if (currentPosition >= endpoint) {
+      clearInterval(moveInterval);
+      container.style['bottom'] = '0';
+      resetContainerPosition(container, 'bottom', endpoint);
+    }
+  }, 100);
+}
+
+function resetContainerPosition(container, direction, endpoint) {
+  setTimeout(() => {
+    container.style[direction] = '0';
+  }, 500); // Delay for container to stay at the top before resetting
+}
+
+
+
+
+function moveContainerLeftToRight() {
+      const container = document.getElementById('imageContainer');
+      const endpoint = window.innerWidth - container.offsetWidth;
+      const moveAmount = 10;
+      let currentPosition = parseInt(getComputedStyle(container)['left']) || 0;
+
+      const moveInterval = setInterval(() => {
+        currentPosition += moveAmount;
+        container.style['left'] = currentPosition + 'px';
+
+        if (currentPosition >= endpoint) {
+          clearInterval(moveInterval);
+          container.style['left'] = '0';
+        }
+      }, 100);
+    }
+
+function moveContainerRightToLeft() {
+  const container = document.getElementById('imageContainerReverse');
+  const endpoint = window.innerWidth - container.offsetWidth;
+const moveAmount = 10;
+  let currentPosition = parseInt(getComputedStyle(container)['right']) || 0;
+
+      const moveInterval = setInterval(() => {
+        currentPosition += moveAmount;
+        container.style['right'] = currentPosition + 'px';
+
+        if (currentPosition >= endpoint) {
+          clearInterval(moveInterval);
+          container.style['right'] = '0';
+        }
+      }, 100);
+}
+
+function controlTrafficLights() {
+  const lights = document.querySelectorAll('.traffic-light div');
+  let isFirstTimerEnded = false;
+
+  function switchLights() {
+    if (isFirstTimerEnded) {
+      lights.forEach((light, index) => {
+        if (index === 0) {
+          light.classList.add('red');
+          light.classList.remove('green', 'yellow');
+        } else {
+          light.classList.add('gray');
+          light.classList.remove('green', 'yellow', 'red');
+        }
+      });
+      isFirstTimerEnded = false;
+    } else {
+      lights[0].classList.remove('red');
+      lights[2].classList.add('green');
+      setTimeout(() => {
+        lights[0].classList.add('red');
+        lights[2].classList.remove('green');
+        lights[1].classList.add('yellow');
+      }, 1000);
+    }
+  }
+
+  setInterval(switchLights, 1500); // Change the interval time as needed
+}
+
+function startTimers() {
+      const timers = document.querySelectorAll('.timer');
+      const sortedTimers = [...timers].sort((a, b) => parseInt(b.textContent) - parseInt(a.textContent));
+      
+      let timerIndex = 0;
+      let interval = null;
+
+      const startNextTimer = () => {
+        let count = parseInt(sortedTimers[timerIndex].textContent);
+        interval = setInterval(() => {
+          count--;
+          if (count >= 0) {
+            sortedTimers[timerIndex].textContent = count;
+            if (timerIndex === 0 && count === 0) {
+              moveContainerRightToLeft(); // Move first container when the first timer approaches zero
+            } else if (timerIndex === 1 && count === 0) {
+              moveContainerLeftToRight(); // Move second container when the second timer approaches zero
+            }
+              else if (timerIndex === 2 && count === 0) {
+              moveContainerBottomToTop(); // Move second container when the second timer approaches zero
+            }
+              else if (timerIndex === 3 && count === 0) {
+              moveContainerTopToBottom(); // Move second container when the second timer approaches zero
+            }
+          } 
+           else {
+            clearInterval(interval);
+            timerIndex+=1;
+            if (timerIndex < sortedTimers.length) {
+              startNextTimer();
+            }
+          }
+        }, 1000);
+      };
+
+      startNextTimer();
+    }
+
+    window.onload = () => {
+  startTimers();
+};
+
+</script>
+<script>
+import cv2
+import numpy as np
+
+l=[]
+def detect_vehicles(image_path):
+    # Load the image
+    image = cv2.imread(image_path)
+
+    if image is None:
+        print(f"Could not read the image at '{image_path}'")
+        return
+
+    # Convert the image to grayscale
+    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+
+    # Apply a Gaussian blur to reduce noise
+    blur = cv2.GaussianBlur(gray, (5, 5), 0)
+
+    # Apply edge detection to identify vehicle edges
+    edges = cv2.Canny(blur, 50, 150)
+
+    # Apply a Hough transform to detect lines in the image
+    lines = cv2.HoughLinesP(edges, 1, np.pi/180, threshold=100, minLineLength=100, maxLineGap=10)
+
+    # Count the number of lines detected (assuming each line represents a vehicle)
+    if lines is not None:
+        vehicle_count = len(lines)
+        print(f"Number of vehicles in '{image_path}':", vehicle_count)
+        l.append(vehicle_count)
+    else:
+        print(f"No vehicles detected in '{image_path}'.")
+        l.append(vehicle_count)
+
+# Paths to the three images
+image_paths = [
+    r"C:\Users\ssaik\Desktop\project\imgs\trfimg1.jfif",
+    r"C:\cars\imgt4.jfif",
+    r"C:\cars\imgt2.jfif",
+    r"C:\Users\ssaik\Desktop\project\imgs\img5.jfif"
+]
+
+# Detect vehicles in each image
+for path in image_paths:
+    detect_vehicles(path)
+
+print(l)
+    
+</script>
+
+</body>
+</html> 
